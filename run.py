@@ -11,10 +11,8 @@ from waihui import Waihui
 
 if __name__ == '__main__':
 
-    # a01 = A01()
-    pmi = GDZCTZ()
     spiders = [
-        pmi
+        GDZCTZ()
     ]
     for spider in spiders:
         spider.__getattribute__("run")()

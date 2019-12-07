@@ -3,9 +3,9 @@
 import http
 import json
 import os
+import pickle
 import time
 import urllib
-import pickle
 
 import requests
 
@@ -79,15 +79,17 @@ class GDZCTZ(Spider):
         with open("dict.file", "wb") as f:
             pickle.dump(self.tree, f)
 
-    def run(self):
-        url = self.get_url('全国居民消费价格分类指数(上年同月=100)(2016-)')
+    def get_data_by_item(self, menu, key):
+        url = self.get_url(menu)
         rows = self.get_data(url)
-        value = self.parse(rows, '居民消费价格指数(上年同月=100)')
+        return self.parse(rows, key)
+
+    def run(self):
+        value = self.get_data_by_item('全国居民消费价格分类指数(上年同月=100)(2016-)', '居民消费价格指数(上年同月=100)')
         print(value)
 
-        url = self.get_url('按行业分固定资产投资增速（2018-）')
-        rows = self.get_data(url)
-        value = self.parse(rows, '采矿业固定资产投资额_累计增长')
+        value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '采矿业固定资产投资额_累计增长')
         print(value)
-        value = self.parse(rows, '黑色金属矿采选业固定资产投资额')
+
+        value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '黑色金属矿采选业固定资产投资额')
         print(value)
