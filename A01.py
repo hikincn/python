@@ -12,16 +12,6 @@ from Spider import Spider
 
 class A01(Spider):
     data = {"id": "zb", "dbcode": "hgyd", "wdcode": "zb", "m": "getTree"}
-    query = {
-        "m": "QueryData",
-        "dbcode": "hgyd",
-        "rowcode": "zb",
-        "colcode": "sj",
-        "wds": [],
-        "dfwds": [{"wdcode": "zb", "valuecode": "A030102"}],
-        "k1": 1575347790952,
-        "h": 1
-    }
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
     urls = []
 

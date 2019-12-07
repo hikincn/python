@@ -10,7 +10,7 @@ class Spider:
     def get_data(self, url):
         return
 
-    def parse(self, row):
+    def parse(self, row, param=None):
         return
 
     def insert(self, data):
