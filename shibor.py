@@ -1,31 +1,24 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+from lxml import etree, html
 
 import requests
-from lxml import html
 
 from Spider import Spider
 
 
-class Waihui(Spider):
+class Shibor(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
     def get_url(self, page=None):
-        return "http://www.safe.gov.cn/AppStructured/hlw/RMBQuery.do"
+        return "http://www.shibor.org/shibor/web/html/shibor.html"
 
     def get_data(self, url):
         req = requests.get(url=url, headers=self.headers)
-        req.encoding = 'utf-8'
-        html1 = req.text
-
-        tree = html.fromstring(html1)
-        for i in range(1, 10):
-            xpath = tree.xpath('//*/tr[@class="first"][' + str(i) + ']/td')
-            a1 = str.strip(xpath[0].text)
-            a2 = str.strip(xpath[1].text)
-            a3 = str.strip(xpath[2].text)
-            print(a1, a2, a3)
+        req.encoding = 'gb2312'
+        data = req.text
+        return data
 
     def parse(self, row):
         return row
@@ -35,4 +28,10 @@ class Waihui(Spider):
 
     def run(self):
         url = self.get_url()
-        rows = self.get_data(url)
+        data = self.get_data(url)
+        tree = html.fromstring(data)
+        shibor = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[3]/text()')
+        datetime = tree.xpath('//*/table[1]/tr[1]/td[1]/text()')
+        time=datetime[0][:16]
+        value=shibor[0]
+        print(value, time)
