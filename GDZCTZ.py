@@ -85,20 +85,28 @@ class GDZCTZ(Spider):
         return self.parse(rows, key)
 
     def run(self):
+        #SGBA_ODS_WB_KPI
+        #pmi
+        value = self.get_data_by_item('制造业采购经理指数', '制造业采购经理指数')
+        print(value)
+        #ppi
+        value = self.get_data_by_item('工业生产者出厂价格指数(上年同月=100)', '工业生产者出厂价格指数(上年同月=100)')
+        print(value)
+        # cpi
         value = self.get_data_by_item('全国居民消费价格分类指数(上年同月=100)(2016-)', '居民消费价格指数(上年同月=100)')
         print(value)
-
+        #cky
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '采矿业固定资产投资额_累计增长')
         print(value)
-
+        #hsjs
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '黑色金属矿采选业固定资产投资额')
         print(value)
-
+        #qczz
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '汽车制造业固定资产投资额')
         print(value)
-
+        #fdc
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '房地产业固定资产投资额')
         print(value)
-
+        #zzy
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '制造业固定资产投资额')
         print(value)
