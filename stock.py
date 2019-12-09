@@ -54,9 +54,11 @@ class Stock(Spider):
         self.insert(data)
 
         ##首长宝佳
+        url="http://push2.eastmoney.com/api/qt/stock/get?secid=116.00103&fields=f18,f59,f51,f52,f57,f58,f106,f105,f62,f108,f177,f43,f46,f60,f44,f45,f47,f48,f49,f113,f114,f115,f85,f84,f169,f170,f161,f163,f164,f171,f126,f168,f162,f116,f55,f92,f71,f50,f167,f117,f86,f172,f174,f175&ut=e1e6871893c6386c5ff6967026016627&fltt=2&cb=jQuery.jQuery8984096671674673_1575897409998&_=1575897409888"
         #url="http://push2.eastmoney.com/api/qt/clist/get?&ut=bd1d9ddb04089700cf9c27f6f7426281&pi=0&pz=7&po=1&fid=f3&fs=b:HKBLOCK|HK6&cb=jQuery.jQuery20008296812465476_1575803588337&_=1575803588153"
-        #rows = self.get_data(url)
-        #print(rows)
+        rows = self.get_data(url)
+        data=rows['data']
+        self.insert(data)
 
         ##首长国际
         url="http://push2.eastmoney.com/api/qt/stock/get?secid=116.00697&fields=f18,f59,f51,f52,f57,f58,f106,f105,f62,f108,f177,f43,f46,f60,f44,f45,f47,f48,f49,f113,f114,f115,f85,f84,f169,f170,f161,f163,f164,f171,f126,f168,f162,f116,f55,f92,f71,f50,f167,f117,f86,f172,f174,f175&ut=e1e6871893c6386c5ff6967026016627&fltt=2&cb=jQuery.jQuery6357659128144333_1575804401225&_=1575804401199"
