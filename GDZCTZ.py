@@ -93,3 +93,12 @@ class GDZCTZ(Spider):
 
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '黑色金属矿采选业固定资产投资额')
         print(value)
+
+        value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '汽车制造业固定资产投资额')
+        print(value)
+
+        value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '房地产业固定资产投资额')
+        print(value)
+
+        value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '制造业固定资产投资额')
+        print(value)
