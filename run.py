@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+from KPI import KPI
 from deal import Deal
 from GDZCTZ import GDZCTZ
 from MoneySupply import MoneySupply
@@ -13,7 +14,7 @@ from waihui import Waihui
 if __name__ == '__main__':
 
     spiders = [
-        Shibor()
+        KPI()
     ]
     for spider in spiders:
         spider.__getattribute__("run")()

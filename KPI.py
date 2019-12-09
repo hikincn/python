@@ -69,7 +69,8 @@ class KPI(Spider):
         code = 'zb.' + self.code + '_sj'
         for item in rows['returndata']['datanodes']:
             if code in item['code'] and item['data']['hasdata']:
-                return item['data']['strdata']
+                date=item['code'][len(item['code'])-6:]
+                return {"strdata":item['data']['strdata'],"date":date}
                 break
 
     def insert(self, data):
