@@ -25,7 +25,7 @@ class Shibor(Spider):
 
     def insert(self, data):
         db = DB()
-        db.execute("insert into SGBA_ODS_WB_SHIBOR(shibor_rq,shibor_dqll) values(" + str(data[0]) + "," + data[1] + ")")
+        db.execute("insert into SGBA_ODS_WB_SHIBOR(shibor_rq,shibor_dqll) values('" + str(data[0]) + "'," + data[1] + ")")
         db.commit()
         db.close()
 
@@ -35,6 +35,6 @@ class Shibor(Spider):
         tree = html.fromstring(data)
         shibor = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[3]/text()')
         datetime = tree.xpath('//*/table[1]/tr[1]/td[1]/text()')
-        time = datetime[0][:10]
+        time = (datetime[0][:10]).replace('-','')
         value = shibor[0]
         self.insert([time, value])
