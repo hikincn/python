@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-from Deal import Deal
+from deal import Deal
 from GDZCTZ import GDZCTZ
 from MoneySupply import MoneySupply
 from PMI import PMI
@@ -13,7 +13,7 @@ from waihui import Waihui
 if __name__ == '__main__':
 
     spiders = [
-        Delaymarket()
+        Shibor()
     ]
     for spider in spiders:
         spider.__getattribute__("run")()

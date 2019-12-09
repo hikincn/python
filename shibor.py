@@ -34,7 +34,16 @@ class Shibor(Spider):
         data = self.get_data(url)
         tree = html.fromstring(data)
         shibor = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[3]/text()')
+        float = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[4]/img/@src')
+        shibor2 = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[5]/text()')
         datetime = tree.xpath('//*/table[1]/tr[1]/td[1]/text()')
         time = datetime[0][:10]
         value = shibor[0]
-        self.insert([time, value])
+        value2 = shibor2[0][2:]
+        float = float[0]
+        if "upicon.gif" in float:
+            float = "上浮"
+        else:
+            float = "下跌"
+        print([time, value, float, value2])
+        # self.insert([time, value,float])
