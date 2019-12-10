@@ -25,7 +25,8 @@ class Shibor(Spider):
 
     def insert(self, data):
         db = DB()
-        db.execute("insert into SGBA_ODS_WB_SHIBOR(shibor_rq,shibor_dqll) values('" + str(data[0]) + "'," + data[1] + ")")
+        db.execute("insert into SGBA_ODS_WB_SHIBOR(shibor_rq,shibor_dqll,shibor_xdfd,shibor_bfbl) values('" + str(
+            data[0]) + "'," + data[1] + ",'" + data[2] + "'," + data[3] + ")")
         db.commit()
         db.close()
 
@@ -37,7 +38,7 @@ class Shibor(Spider):
         float = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[4]/img/@src')
         shibor2 = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[5]/text()')
         datetime = tree.xpath('//*/table[1]/tr[1]/td[1]/text()')
-        time = (datetime[0][:10]).replace('-','')
+        time = (datetime[0][:10]).replace('-', '')
         value = shibor[0]
         value2 = shibor2[0][2:]
         float = float[0]
@@ -45,5 +46,5 @@ class Shibor(Spider):
             float = "上浮"
         else:
             float = "下跌"
-        print([time, value, float, value2])
-        # self.insert([time, value,float])
+        # print([time, value, float, value2])
+        self.insert([time, value, float, value2])

@@ -5,6 +5,7 @@ import requests
 from lxml import html
 
 from Spider import Spider
+from dbutils import DB
 
 
 class Waihui(Spider):
@@ -22,16 +23,22 @@ class Waihui(Spider):
         tree = html.fromstring(html1)
         for i in range(1, 10):
             xpath = tree.xpath('//*/tr[@class="first"][' + str(i) + ']/td')
-            a1 = str.strip(xpath[0].text)
+            a1 = str.strip(xpath[0].text).replace("-","")
             a2 = str.strip(xpath[1].text)
             a3 = str.strip(xpath[2].text)
-            print(a1, a2, a3)
+            rows=[a1,a2,a3]
+            #print(a1, a2, a3)
+            self.insert(rows)
 
     def parse(self, row):
         return row
 
     def insert(self, data):
-        print(data)
+        db = DB()
+        sql = "INSERT INTO SGBA_ODS_WB_hl(HL_RQ,HL_USD,HL_EUR) VALUES(" +data[0]+","+ data[1] + "," + data[2]+ ")"
+        db.execute(sql)
+        db.commit()
+        db.close()
 
     def run(self):
         url = self.get_url()

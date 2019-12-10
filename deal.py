@@ -8,6 +8,7 @@ import urllib
 import requests
 
 from Spider import Spider
+from dbutils import DB
 
 
 class Deal(Spider):
@@ -32,9 +33,25 @@ class Deal(Spider):
         return row
 
     def insert(self, data):
-        print(data)
+        db = DB()
+        sql = "INSERT INTO SGBA_ODS_WB_ZS(ZS_RQ,ZS_ZSDM,ZS_NAME,ZS_KP,ZS_ZG,ZS_ZD,ZS_ZX,ZS_ZDS,ZS_ZDF,ZS_SP,ZS_JS,ZS_ZSP,ZS_ZJS) VALUES(" +data['tradeDate']+",'"+ data['indexCode']+"','"+data['indexName']+"',"+data['openPrice']+","+data['highPrice']+","+data['lowPrice']+","+data['lastPrice']+","+data['netChange']+","+data['chgPercent'].replace("%","")+","+data['closePrice'].replace("--","0")+","+data['clearPrice'].replace("--","0")+","+data['lastClose']+","+data['lastClearPrice']+")"
+        db.execute(sql)
+        db.commit()
+        db.close()
+        #print(sql)
 
     def run(self):
         url = self.get_url()
         rows = self.get_data(url)
-        print(rows)
+        #铁矿石
+        data = rows['data'][23]
+        #print(data)
+        self.insert(data)
+        #焦炭
+        data = rows['data'][21]
+        #print(data)
+        self.insert(data)
+        #焦煤
+        data = rows['data'][22]
+        #print(data)
+        self.insert(data)
