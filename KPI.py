@@ -10,6 +10,7 @@ import urllib
 import requests
 
 from Spider import Spider
+from dbutils import DB
 
 
 class KPI(Spider):
@@ -73,8 +74,13 @@ class KPI(Spider):
                 return {"strdata": item['data']['strdata'], "date": date}
                 break
 
-    def insert(self, data):
-        print(str(data))
+    def insert(self, code,name,data):
+        db = DB()
+        sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_RQ,KPI_CODE,KPI_NAME,KPI_DATA) VALUES(" +data['date']+",'"+ code+ "','"+name+"',"+data['strdata']+")"
+        db.execute(sql)
+        db.commit()
+        db.close()
+        #print(sql)
 
     def dump(self):
         with open("dict.file", "wb") as f:
@@ -87,27 +93,19 @@ class KPI(Spider):
 
     def run(self):
         # SGBA_ODS_WB_KPI
-        # pmi
         value = self.get_data_by_item('制造业采购经理指数', '制造业采购经理指数')
-        print(value)
-        # ppi
+        self.insert('pmi','制造业采购经理指数',value)
         value = self.get_data_by_item('工业生产者出厂价格指数(上年同月=100)', '工业生产者出厂价格指数(上年同月=100)')
-        print(value)
-        # cpi
+        self.insert('ppi','工业生产者出厂价格指数',value)
         value = self.get_data_by_item('全国居民消费价格分类指数(上年同月=100)(2016-)', '居民消费价格指数(上年同月=100)')
-        print(value)
-        # cky
+        self.insert('cpi','居民消费价格指数',value)
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '采矿业固定资产投资额_累计增长')
-        print(value)
-        # hsjs
+        self.insert('cky','采矿业固定资产投资额_累计增长',value)
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '黑色金属矿采选业固定资产投资额')
-        print(value)
-        # qczz
+        self.insert('hsjs','黑色金属矿采选业固定资产投资额',value)
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '汽车制造业固定资产投资额')
-        print(value)
-        # fdc
+        self.insert('qczz','汽车制造业固定资产投资额',value)
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '房地产业固定资产投资额')
-        print(value)
-        # zzy
+        self.insert('fdc','房地产业固定资产投资额',value)
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '制造业固定资产投资额')
-        print(value)
+        self.insert('zzy','制造业固定资产投资额',value)
