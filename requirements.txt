@@ -1,3 +1,4 @@
 requests
 lxml
 mysqlclient==1.4.6
+apscheduler
