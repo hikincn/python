@@ -28,28 +28,38 @@ class MoneySupply(Spider):
         print(data)
 
     def get_value(self, item):
-        value = str.strip(item)
-        value = value.replace("\r", "")
-        value = value.replace("\n", "")
-        return value
+        if isinstance(item, list):
+            for str in item:
+                if self.trim(str) != "":
+                    return self.trim(str)
+        return self.trim(item)
+
+    def trim(self, value):
+        return str.strip(value).replace("\r\n", "").replace(" ", "")
 
     def run(self):
         url = self.get_url()
         data = self.get_data(url)
         tree = html.fromstring(data)
-        item = tree.xpath('//*[@id="tb"]/tr[3]/td[1]/text()')
-        print(self.get_value(item[0]))
-        item = tree.xpath('//*[@id="tb"]/tr[3]/td[2]/text()')
-        print(self.get_value(item[0]))
+        item = tree.xpath('//*[@id="tb"]/tr[3]/td[1]//text()')
+        print(self.get_value(item))
+        item = tree.xpath('//*[@id="tb"]/tr[3]/td[2]//text()')
+        print(self.get_value(item))
         print("================")
-        item = tree.xpath('//*[@id="tb"]/tr[4]/td[1]/text()')
-        print(self.get_value(item[0]))
-        item = tree.xpath('//*[@id="tb"]/tr[4]/td[2]/text()')
-        print(self.get_value(item[0]))
-
-        # items = tree.xpath('//*[@id="tb"]/tr[4]/td')
-        # for item in items:
-        #     print(self.get_value(item))
+        item = tree.xpath('//*[@id="tb"]/tr[4]/td[1]//text()')
+        print(self.get_value(item))
+        item = tree.xpath('//*[@id="tb"]/tr[4]/td[2]//text()')
+        print(self.get_value(item))
+        item = tree.xpath('//*[@id="tb"]/tr[4]/td[3]//text()')
+        print(self.get_value(item))
+        item = tree.xpath('//*[@id="tb"]/tr[4]/td[4]//text()')
+        print(self.get_value(item))
+        print("=====================================================")
+        items = tree.xpath('//*[@id="tb"]/tr[3]/td//text()')
+        for item in items:
+            value = self.get_value(item)
+            if value != "":
+                print(value)
 
 
 if __name__ == '__main__':
