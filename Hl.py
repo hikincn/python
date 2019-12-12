@@ -8,7 +8,7 @@ from Spider import Spider
 from dbutils import DB
 
 
-class Waihui(Spider):
+class Hl(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
@@ -35,7 +35,10 @@ class Waihui(Spider):
 
     def insert(self, data):
         db = DB()
-        sql = "INSERT INTO SGBA_ODS_WB_hl(HL_RQ,HL_USD,HL_EUR) VALUES(" +data[0]+","+ data[1] + "," + data[2]+ ")"
+        sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'USD','美元汇率'"+ data[1] +  ")"
+        db.execute(sql)
+        db.commit()
+        sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'EUR','欧元汇率'"+ data[2] +  ")"
         db.execute(sql)
         db.commit()
         db.close()

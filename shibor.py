@@ -25,8 +25,8 @@ class Shibor(Spider):
 
     def insert(self, data):
         db = DB()
-        db.execute("insert into SGBA_ODS_WB_SHIBOR(shibor_rq,shibor_dqll,shibor_xdfd,shibor_bfbl) values('" + str(
-            data[0]) + "'," + data[1] + ",'" + data[2] + "'," + data[3] + ")")
+        hl_tb = float(data[2]) * float(data[3])
+        db.execute("insert into SGBA_ODS_WB_HL(HL_DAY,HL_CODE,HL_NAME,HL_DATA,HL_TB) values('" + str(data[0]) + "','shibor','上海银行间同业拆放利率'," + data[1] + "," + str(hl_tb) + ")")
         db.commit()
         db.close()
 
@@ -43,8 +43,8 @@ class Shibor(Spider):
         value2 = shibor2[0][2:]
         float = float[0]
         if "upicon.gif" in float:
-            float = "上浮"
+            float = "1"
         else:
-            float = "下跌"
+            float = "-1"
         # print([time, value, float, value2])
         self.insert([time, value, float, value2])

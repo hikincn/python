@@ -9,7 +9,7 @@ setup(
     version='0.0.1',  # 版本号
     description='spider',  # 描述
     author='zjx',  # 作者
-    author_email='zjx@163.com',  # 你的邮箱**
+    author_email='zhongjixin@163.com',  # 你的邮箱**
     url='',  # 可以写github上的地址，或者其他地址
     packages=setuptools.find_packages(),
     # 依赖包
@@ -17,11 +17,12 @@ setup(
         "requests",
         "lxml",
         "mysqlclient",
+        "cx_Oracle",
         "apscheduler"
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Operating System :: Linux'  # 你的操作系统
+        'Operating System :: windows server 2012'  # 你的操作系统
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',  # BSD认证
         'Programming Language :: Python',  # 支持的语言
