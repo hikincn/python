@@ -7,8 +7,8 @@ import urllib
 
 import requests
 from lxml import etree, html
-from datetime import datetime
 from dbutils import DB
+from datetime import datetime
 
 
 from Spider import Spider
@@ -40,7 +40,7 @@ class Stock(Spider):
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "INSERT INTO SGBA_ODS_WB_GPXX(GPXX_RQ,GPXX_GPDM,GPXX_GPMC,GPXX_ZSZ,GPXX_ZRSPJ,GPXX_JRKPJ,GPXX_JRZGJ,GPXX_JRZDJ,GPXX_SSJG) VALUES(" +dt.strftime('%Y%m%d%H%M%S')+",'"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
+        sql = "INSERT INTO SGBA_ODS_WB_GP(GP_TIME,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) VALUES(" +dt.strftime('%Y%m%d%H%M%S')+",'"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
         db.execute(sql)
         db.commit()
         db.close()

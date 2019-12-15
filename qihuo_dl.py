@@ -9,9 +9,10 @@ import requests
 
 from Spider import Spider
 from dbutils import DB
+from datetime import datetime
 
 
-class Deal(Spider):
+class qihuo_dl(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
     urls = []
@@ -34,7 +35,8 @@ class Deal(Spider):
 
     def insert(self, data):
         db = DB()
-        sql = "INSERT INTO SGBA_ODS_WB_ZS(ZS_RQ,ZS_ZSDM,ZS_NAME,ZS_KP,ZS_ZG,ZS_ZD,ZS_ZX,ZS_ZDS,ZS_ZDF,ZS_SP,ZS_JS,ZS_ZSP,ZS_ZJS) VALUES(" +data['tradeDate']+",'"+ data['indexCode']+"','"+data['indexName']+"',"+data['openPrice']+","+data['highPrice']+","+data['lowPrice']+","+data['lastPrice']+","+data['netChange']+","+data['chgPercent'].replace("%","")+","+data['closePrice'].replace("--","0")+","+data['clearPrice'].replace("--","0")+","+data['lastClose']+","+data['lastClearPrice']+")"
+        dt = datetime.now()
+        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_TIME,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZDF,QH_SP,QH_JS,QH_ZSP,QH_ZJS) VALUES(" +dt.strftime('%Y%m%d%H%M%S')+",'"+ data['indexCode']+"','"+data['indexName']+"',"+data['openPrice']+","+data['highPrice']+","+data['lowPrice']+","+data['lastPrice']+","+data['netChange']+","+data['chgPercent'].replace("%","")+","+data['closePrice'].replace("--","0")+","+data['clearPrice'].replace("--","0")+","+data['lastClose']+","+data['lastClearPrice']+")"
         db.execute(sql)
         db.commit()
         db.close()

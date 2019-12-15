@@ -76,7 +76,6 @@ class MoneySupply(Spider):
             if value != "":
                 j = j+1
                 list_data[j] = value
-        print(list_data)
         self.insert(list_data)
 
 

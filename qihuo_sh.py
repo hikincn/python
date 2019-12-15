@@ -7,16 +7,18 @@ import urllib
 
 import requests
 from lxml import etree, html
+from dbutils import DB
+from datetime import datetime
 
 from Spider import Spider
 
 
-class Delaymarket(Spider):
+class qihuo_sh(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
     def get_url(self, page=None):
-        return "http://quote.eastmoney.com/sz000959.html"
+        return "http://www.shfe.com.cn/data/delaymarket_rb.dat"
 
     def get_data(self, url):
         req = requests.get(url=url, headers=self.headers)
@@ -28,15 +30,22 @@ class Delaymarket(Spider):
         except Exception:
             return ""
 
-
     def parse(self, row):
-        return row
+        print(row)
 
     def insert(self, data):
-        print(data)
+        db = DB()
+        dt = datetime.now()
+        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_TIME,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZJS) VALUES" \
+              "(" +dt.strftime('%Y%m%d%H%M%S')+",'"+ data['contractname']+"','螺纹钢"+data['contractname']+"',"+data['openprice'].replace("--","0")+","+data['highprice'].replace("--","0")+","+data['lowerprice'].replace("--","0")+","+data['lastprice']+","+data['upperdown']+","+data['presettlementprice']+")"
+        db.execute(sql)
+        db.commit()
+        db.close()
 
     def run(self):
-        url = "http://www.shfe.com.cn/data/delaymarket_rb.dat"
+        url = self.get_url()
         rows = self.get_data(url)
-        print(rows)
+        for i in range(0,10):
+            self.insert(rows['delaymarket'][i])
+
 
