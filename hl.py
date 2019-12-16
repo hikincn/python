@@ -6,9 +6,10 @@ from lxml import html
 
 from Spider import Spider
 from dbutils import DB
+from datetime import datetime
 
 
-class HL(Spider):
+class hl(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
@@ -44,5 +45,6 @@ class HL(Spider):
         db.close()
 
     def run(self):
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         url = self.get_url()
         rows = self.get_data(url)

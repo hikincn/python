@@ -2,12 +2,13 @@
 # -*- coding: UTF-8 -*-
 import requests
 from lxml import html
+from dbutils import DB
+from datetime import datetime
 
 from Spider import Spider
-from dbutils import DB
 
 
-class Shibor(Spider):
+class shibor(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
@@ -31,14 +32,15 @@ class Shibor(Spider):
         db.close()
 
     def run(self):
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         url = self.get_url()
         data = self.get_data(url)
         tree = html.fromstring(data)
         shibor = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[3]/text()')
         float = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[4]/img/@src')
         shibor2 = tree.xpath('//*/table[@class="shiborquxian"]/tr[1]/td[5]/text()')
-        datetime = tree.xpath('//*/table[1]/tr[1]/td[1]/text()')
-        time = (datetime[0][:10]).replace('-', '')
+        datetimes = tree.xpath('//*/table[1]/tr[1]/td[1]/text()')
+        time = (datetimes[0][:10]).replace('-', '')
         value = shibor[0]
         value2 = shibor2[0][2:]
         float = float[0]

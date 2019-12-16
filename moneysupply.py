@@ -3,11 +3,12 @@
 import requests
 from lxml import html
 from dbutils import DB
+from datetime import datetime
 
 from Spider import Spider
 
 
-class MoneySupply(Spider):
+class moneysupply(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
     }
@@ -38,7 +39,6 @@ class MoneySupply(Spider):
         db.execute(sql)
         db.commit()
         db.close()
-        #print(sql)
 
     def get_value(self, item):
         if isinstance(item, list):
@@ -51,23 +51,10 @@ class MoneySupply(Spider):
         return str.strip(value).replace("\r\n", "").replace(" ", "")
 
     def run(self):
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         url = self.get_url()
         data = self.get_data(url)
         tree = html.fromstring(data)
-        #item = tree.xpath('//*[@id="tb"]/tr[3]/td[1]//text()')
-        #print(self.get_value(item))
-        #item = tree.xpath('//*[@id="tb"]/tr[3]/td[2]//text()')
-        #print(self.get_value(item))
-        #print("================")
-        #item = tree.xpath('//*[@id="tb"]/tr[4]/td[1]//text()')
-        #print(self.get_value(item))
-        #item = tree.xpath('//*[@id="tb"]/tr[4]/td[2]//text()')
-        #print(self.get_value(item))
-        #item = tree.xpath('//*[@id="tb"]/tr[4]/td[3]//text()')
-        #print(self.get_value(item))
-        #item = tree.xpath('//*[@id="tb"]/tr[4]/td[4]//text()')
-        #print(self.get_value(item))
-        #print("=====================================================")
         items = tree.xpath('//*[@id="tb"]/tr[3]/td//text()')
         j = -1
         list_data = list(range(10))

@@ -12,7 +12,6 @@ from datetime import datetime
 
 from Spider import Spider
 
-
 class qihuo_sh(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
@@ -43,9 +42,11 @@ class qihuo_sh(Spider):
         db.close()
 
     def run(self):
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         url = self.get_url()
         rows = self.get_data(url)
-        for i in range(0,10):
+        j = len(rows['delaymarket'])
+        #print(str(j))
+        #print(rows['delaymarket'][j-1])
+        for i in range(0,j-1):
             self.insert(rows['delaymarket'][i])
-
-

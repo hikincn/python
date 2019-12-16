@@ -2,42 +2,46 @@
 # -*- coding: UTF-8 -*-
 
 from apscheduler.schedulers.blocking import BlockingScheduler
-from KPI import KPI
-from MoneySupply import MoneySupply
-from Hl import HL
-from shibor import Shibor
+from kpi import kpi
+from moneysupply import moneysupply
+from hl import hl
+from shibor import shibor
 from qihuo_dl import qihuo_dl
 from qihuo_sh import qihuo_sh
-from stock import Stock
-from datetime import datetime
+from stock import stock
 import os
-'''
-def tick():
-    print('*********** The time is: %s' % datetime.now())
-def pick():
-    print('^^^^^^^^^^^ The time is: %s' % datetime.now())
-    '''
+
+
 if __name__ == '__main__':
+
     '''
+    上海期货交易所：75+60+40+40+330=545分钟
+    上午 09:00 -- 10:15 10:30 -- 11:30    
+    下午 13:30 -- 14:10 14:20 -- 15:00
+    夜盘 21:00-次日2:30
+    
+    大连、郑州商品交易所：75+60+90+150=375    
+    上午09:00 -- 10:15 10:30 -- 11:30
+    下午 13:30 -- 15:00
+    夜盘 21:00-23:30
+    '''
+
     scheduler = BlockingScheduler()
 
-    # 添加任务作业，本任务设置为 每10秒钟执行一次
-    #scheduler.add_job(tick, 'cron', hour='*', minute='*', second='*/5')
-    #scheduler.add_job(tick, 'cron', hour='*', minute='*', second='*/10')
-    #scheduler.add_job(tick, 'cron', hour='6', minute='*', second='1,10,20,30,40,50')
-    #scheduler.add_job(pick, 'cron', hour='6', minute='*', second='1,20,40')
-    #scheduler.add_job(Shibor().run, 'cron', hour='*', minute='*', second='*/10')
-    # 添加任务作业，本任务设置为 每天12点执行一次
+    scheduler.add_job(kpi().run, 'cron', hour='12', minute='0', second='0')
+    scheduler.add_job(moneysupply().run, 'cron', hour='12', minute='0', second='0')
+    scheduler.add_job(hl().run, 'cron', hour='6,8,10,12,14,16,18', minute='0', second='0')
+    scheduler.add_job(shibor().run, 'cron', hour='6,8,10,12,14,16,18', minute='0', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='9', minute='*', second='*/6')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='10', minute='0-15,30-60', second='*/6')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='11', minute='0-30', second='*/6')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='13', minute='30-60', second='*/6')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='14', minute='*', second='*/6')
+
+    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri',hour='9-11,13-15', minute='*', second='*/6')
+    scheduler.add_job(stock().run, 'cron', day_of_week='mon-fri',hour='9-11,13-15', minute='*', second='*/6')
     
-    scheduler.add_job(KPI().run, 'cron', hour='12', minute='0', second='0')
-    scheduler.add_job(MoneySupply().run, 'cron', hour='12', minute='0', second='0')
-    scheduler.add_job(HL().run, 'cron', hour='6,8,10,12,14,16,18', minute='0', second='0')
-    scheduler.add_job(Shibor().run, 'cron', hour='6,8,10,12,14,16,18', minute='0', second='0')
-    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri',hour='9-11,13-15', minute='1,11,21,31,41,51', second='0')
-    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri',hour='9-11,13-15', minute='1,11,21,31,41,51', second='0')
-    scheduler.add_job(Stock().run, 'cron', day_of_week='mon-fri',hour='9-11,13-15', minute='1,11,21,31,41,51', second='0')
-    
-    print('Press Ctrl+{0} to exit'.format('K' if os.name == 'nt' else 'L'))
+    print('Press Ctrl+{0} to exit'.format('C' if os.name == 'nt' else 'C'))
     try:
         scheduler.start()
     except (KeyboardInterrupt,SystemExit):
@@ -45,13 +49,14 @@ if __name__ == '__main__':
     '''
 
     spiders = [
-        #KPI()
-        MoneySupply(),
-        HL(),
-        Shibor(),
-        qihuo_dl(),
-        qihuo_sh(),
-        Stock()
+        #kpi(),
+        #moneysupply(),
+        #hl(),
+        #shibor(),
+        qihuo_sh()
+        #qihuo_dl(),
+        #stock()
     ]
     for spider in spiders:
         spider.__getattribute__("run")()
+    '''

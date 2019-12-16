@@ -11,7 +11,6 @@ from Spider import Spider
 from dbutils import DB
 from datetime import datetime
 
-
 class qihuo_dl(Spider):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
@@ -43,6 +42,7 @@ class qihuo_dl(Spider):
         #print(sql)
 
     def run(self):
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         url = self.get_url()
         rows = self.get_data(url)
         #铁矿石

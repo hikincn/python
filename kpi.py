@@ -11,9 +11,10 @@ import requests
 
 from Spider import Spider
 from dbutils import DB
+from datetime import datetime
 
 
-class KPI(Spider):
+class kpi(Spider):
     data = {"id": "zb", "dbcode": "hgyd", "wdcode": "zb", "m": "getTree"}
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
     code = ''
@@ -76,11 +77,10 @@ class KPI(Spider):
 
     def insert(self, code,name,data):
         db = DB()
-        sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_RQ,KPI_CODE,KPI_NAME,KPI_DATA) VALUES(" +data['date']+",'"+ code+ "','"+name+"',"+data['strdata']+")"
+        sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA) VALUES(" +data['date']+",'"+ code+ "','"+name+"',"+data['strdata']+")"
         db.execute(sql)
         db.commit()
         db.close()
-        #print(sql)
 
     def dump(self):
         with open("dict.file", "wb") as f:
@@ -92,7 +92,7 @@ class KPI(Spider):
         return self.parse(rows, key)
 
     def run(self):
-        # SGBA_ODS_WB_KPI
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         value = self.get_data_by_item('制造业采购经理指数', '制造业采购经理指数')
         self.insert('pmi','制造业采购经理指数',value)
         value = self.get_data_by_item('工业生产者出厂价格指数(上年同月=100)', '工业生产者出厂价格指数(上年同月=100)')
