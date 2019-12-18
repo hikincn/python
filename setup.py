@@ -10,7 +10,6 @@ setup(
     description='spider',  # 描述
     author='zjx',  # 作者
     author_email='zhongjixin@163.com',  # 你的邮箱**
-    package_dir = {'':'lib'},
     packages=setuptools.find_packages(),
     # 依赖包
     install_requires=[

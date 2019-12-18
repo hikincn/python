@@ -7,8 +7,8 @@ import urllib
 
 import requests
 
-from Spider import Spider
-from dbutils import DB
+from spider.Spider import Spider
+from spider.dbutils import DB
 from datetime import datetime
 
 class qihuo_dl(Spider):

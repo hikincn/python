@@ -5,7 +5,7 @@ from lxml import html
 from dbutils import DB
 from datetime import datetime
 
-from Spider import Spider
+from spider.Spider import Spider
 
 
 class moneysupply(Spider):
