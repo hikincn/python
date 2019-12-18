@@ -3,7 +3,7 @@ Description=spider
 After=network.target
 
 [Service]
-ExecStart=/user/bin/python3 /usr/bin/spider_start.py
+ExecStart=/usr/bin/spider_start.py
 PIDFile=/var/run/spider.pid
 ExecStop=/bin/kill -s TERM $MAINPID
 Restart=on-failure

@@ -20,6 +20,7 @@ pip3 uninstall spider -y &>/dev/null || true
 pip3 install $TMPDIR/dist/spider-0.0.1.tar.gz
 cp $TMPDIR/hack/spider.service /lib/systemd/system/spider.service
 cp $TMPDIR/hack/spider_start.py /usr/bin/spider_start.py
+chmod 777 /usr/bin/spider_start.py
 systemctl daemon-reload
 systemctl enable spider.service
 systemctl start spider.service
