@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 import requests
 from lxml import html
-from dbutils import DB
+from spider.dbutils import DB
 from datetime import datetime
 
 from spider.Spider import Spider

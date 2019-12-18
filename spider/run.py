@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -26,52 +26,55 @@ import os
     A股：9:30 — 11:30；13:00 — 15:00
     H股：10:00 — 12:30；14:30 — 16:00
     '''
-if __name__ == '__main__':
 
 
+def start():
     scheduler = BlockingScheduler()
 
     scheduler.add_job(kpi().run, 'cron', hour='12', minute='0', second='0')
     scheduler.add_job(moneysupply().run, 'cron', hour='12', minute='0', second='0')
     scheduler.add_job(hl().run, 'cron', hour='6,8,10,12,14,16,18', minute='0', second='0')
     scheduler.add_job(shibor().run, 'cron', hour='6,8,10,12,14,16,18', minute='0', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='9-11', minute='*/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='11', minute='(0-30)/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='13', minute='(30-60)/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='14', minute='*/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='21-23', minute='*/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='9-11', minute='*/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='11', minute='0-30/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='13', minute='30-59/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='14', minute='*/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
 
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='9-11', minute='*/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='11', minute='(0-30)/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='13', minute='(30-60)/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='14', minute='*/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='21-23', minute='*/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='9-11', minute='*/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='11', minute='0-30/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='13', minute='30-59/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='14', minute='*/5', second='0')
+    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
 
-    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri',hour='9', minute='(30-60)/5', second='0')
-    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri',hour='10', minute='*/5', second='0')
-    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri',hour='11', minute='(0-30)/5', second='0')
-    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri',hour='13-15', minute='*/5', second='0')
+    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri', hour='9', minute='30-59/5', second='0')
+    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri', hour='10', minute='*/5', second='0')
+    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri', hour='11', minute='0-59/5', second='0')
+    scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri', hour='13-15', minute='*/5', second='0')
 
-    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri',hour='10-11', minute='*/5', second='0')
-    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri',hour='12', minute='(0-30)/5', second='0')
-    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri',hour='14', minute='(30-60)/5', second='0')
-    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri',hour='15', minute='*/5', second='0')
+    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri', hour='10-11', minute='*/5', second='0')
+    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri', hour='12', minute='0-30/5', second='0')
+    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri', hour='14', minute='30-59/5', second='0')
+    scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri', hour='15', minute='*/5', second='0')
 
     print('Press Ctrl+{0} to exit'.format('C' if os.name == 'nt' else 'C'))
     try:
         scheduler.start()
-    except (KeyboardInterrupt,SystemExit):
+    except (KeyboardInterrupt, SystemExit):
         pass
 
-
     spiders = [
-        #kpi()
+        # kpi()
         moneysupply()
-        #hl(),
-        #shibor(),
-        #qihuo_sh()
-        #qihuo_dl(),
-        #stock()
+        # hl(),
+        # shibor(),
+        # qihuo_sh()
+        # qihuo_dl(),
+        # stock()
     ]
     for spider in spiders:
         spider.__getattribute__("run")()
+
+
+if __name__ == '__main__':
+    start()
