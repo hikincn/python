@@ -1,0 +1,15 @@
+[Unit]
+Description=spider
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/zycloud-agent
+PIDFile=/var/run/spider.pid
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=on-failure
+KillMode=process
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+Alias=spider.service
