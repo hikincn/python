@@ -1,8 +1,8 @@
 #!/bin/bash
 clean_files(){
-    rm -rf /lib/systemd/system/spider.service
-    rm -rf /usr/bin/spider_start.py
-    ps -ef|grep "spider"|grep -v grep|awk '{print $2}'|xargs -i sudo kill -9 {} || true
+    rm -rf /lib/systemd/system/spider.service &>/dev/null || true
+    rm -rf /usr/bin/spider_start.py &>/dev/null || true
+    ps -ef|grep "spider_start.py"|grep -v grep|awk '{print $2}'|xargs -i sudo kill -9 {} || true
 }
 clean_files
 
@@ -16,8 +16,10 @@ cd $TMPDIR/hack
 chmod 777 $TMPDIR/hack
 echo -e "\e[1;34m[Start Installation]\e[0m";
 #rm -rf $TMPDIR
-cp $ROOT/hack/spider.service /lib/systemd/system/spider.service
-cp $ROOT/hack/spider_start.py /usr/bin/spider_start.py
+pip3 uninstall spider -y &>/dev/null || true
+pip3 install $TMPDIR/dist/spider-0.0.1.tar.gz
+cp $TMPDIR/hack/spider.service /lib/systemd/system/spider.service
+cp $TMPDIR/hack/spider_start.py /usr/bin/spider_start.py
 systemctl daemon-reload
 systemctl enable spider.service
 systemctl start spider.service
