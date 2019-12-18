@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 import requests
 from lxml import html
-from dbutils import DB
+from spider.dbutils import DB
 from datetime import datetime
 
 from spider.Spider import Spider
@@ -77,6 +77,3 @@ class moneysupply(Spider):
                 list_data[j] = value
         self.insert(list_data)
 
-
-if __name__ == '__main__':
-    MoneySupply().run()
