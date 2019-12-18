@@ -26,9 +26,13 @@ class shibor(Spider):
 
     def insert(self, data):
         db = DB()
-        hl_tb = float(data[2]) * float(data[3])
-        db.execute("insert into SGBA_ODS_WB_HL(HL_DAY,HL_CODE,HL_NAME,HL_DATA,HL_TB) values('" + str(data[0]) + "','shibor','上海银行间同业拆放利率'," + data[1] + "," + str(hl_tb) + ")")
-        db.commit()
+        sql = "select count(*) from sgba_ods_wb_hl where hl_day = '"+str(data[0])+"' and hl_code='shibor'"
+        db.execute(sql)
+        results = db.fetchone()
+        if results[0] == 0:
+            hl_tb = float(data[2]) * float(data[3])
+            db.execute("insert into SGBA_ODS_WB_HL(HL_DAY,HL_CODE,HL_NAME,HL_DATA,HL_TB) values('" + str(data[0]) + "','shibor','上海银行间同业拆放利率'," + data[1] + "," + str(hl_tb) + ")")
+            db.commit()
         db.close()
 
     def run(self):

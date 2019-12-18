@@ -77,10 +77,10 @@ class kpi(Spider):
 
     def insert(self, code,name,data):
         db = DB()
-        sql = "select count(*) from sgba_ods_wb_kpi where kpi_month = '"+data['date']+"' and kpi_code='"+code+"'"
+        sql = "select count(*)  as cnt from sgba_ods_wb_kpi where kpi_month = '"+data['date']+"' and kpi_code='"+code+"'"
         db.execute(sql)
         results = db.fetchone()
-        if results==0:
+        if results[0]==0:
             sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA) VALUES(" +data['date']+",'"+ code+ "','"+name+"',"+data['strdata']+")"
             db.execute(sql)
             db.commit()

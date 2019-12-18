@@ -36,12 +36,20 @@ class hl(Spider):
 
     def insert(self, data):
         db = DB()
-        sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'USD','美元汇率',"+ data[1] +  ")"
+        sql = "select count(*) from sgba_ods_wb_hl where hl_day = '"+data[0]+"' and hl_code='USD'"
         db.execute(sql)
-        db.commit()
-        sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'EUR','欧元汇率',"+ data[2] +  ")"
+        results = db.fetchone()
+        if results[0] == 0:
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'USD','美元汇率',"+ data[1] +  ")"
+            db.execute(sql)
+            db.commit()
+        sql = "select count(*) from sgba_ods_wb_hl where hl_day = '"+data[0]+"' and hl_code='EUR'"
         db.execute(sql)
-        db.commit()
+        results = db.fetchone()
+        if results[0] == 0:
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'EUR','欧元汇率',"+ data[2] +  ")"
+            db.execute(sql)
+            db.commit()
         db.close()
 
     def run(self):
