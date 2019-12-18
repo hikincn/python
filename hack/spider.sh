@@ -2,7 +2,7 @@
 clean_files(){
     rm -rf /lib/systemd/system/spider.service &>/dev/null || true
     rm -rf /usr/bin/spider_start.py &>/dev/null || true
-    ps -ef|grep "spider_start.py"|grep -v grep|awk '{print $2}'|xargs -i sudo kill -9 {} || true
+    systemctl start spider.service &>/dev/null || true
 }
 clean_files
 
