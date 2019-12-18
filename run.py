@@ -8,7 +8,7 @@ from hl import hl
 from shibor import shibor
 from qihuo_dl import qihuo_dl
 from qihuo_sh import qihuo_sh
-from stock_hk import stock_a
+from stock_a import stock_a
 from stock_hk import stock_hk
 import os
 
@@ -75,3 +75,4 @@ if __name__ == '__main__':
     ]
     for spider in spiders:
         spider.__getattribute__("run")()
+'''
