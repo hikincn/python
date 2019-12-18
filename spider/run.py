@@ -2,14 +2,14 @@
 # -*- coding: UTF-8 -*-
 
 from apscheduler.schedulers.blocking import BlockingScheduler
-from kpi import kpi
-from moneysupply import moneysupply
-from hl import hl
-from shibor import shibor
-from qihuo_dl import qihuo_dl
-from qihuo_sh import qihuo_sh
-from stock_hk import stock_a
-from stock_hk import stock_hk
+from spider.kpi import kpi
+from spider.moneysupply import moneysupply
+from spider.hl import hl
+from spider.shibor import shibor
+from spider.qihuo_dl import qihuo_dl
+from spider.qihuo_sh import qihuo_sh
+from spider.stock_a import stock_a
+from spider.stock_hk import stock_hk
 import os
 
 '''
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='13', minute='(30-60)/5', second='0')
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='14', minute='*/5', second='0')
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='21-23', minute='*/5', second='0')
-    
+
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='9-11', minute='*/5', second='0')
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='11', minute='(0-30)/5', second='0')
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri',hour='13', minute='(30-60)/5', second='0')
@@ -56,13 +56,13 @@ if __name__ == '__main__':
     scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri',hour='12', minute='(0-30)/5', second='0')
     scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri',hour='14', minute='(30-60)/5', second='0')
     scheduler.add_job(stock_hk().run, 'cron', day_of_week='mon-fri',hour='15', minute='*/5', second='0')
-    
+
     print('Press Ctrl+{0} to exit'.format('C' if os.name == 'nt' else 'C'))
     try:
         scheduler.start()
     except (KeyboardInterrupt,SystemExit):
         pass
-    '''
+
 
     spiders = [
         #kpi()

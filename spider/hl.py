@@ -4,8 +4,8 @@
 import requests
 from lxml import html
 
-from Spider import Spider
-from dbutils import DB
+from spider.Spider import Spider
+from spider.dbutils import DB
 from datetime import datetime
 
 
