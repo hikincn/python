@@ -8,8 +8,8 @@ import cx_Oracle
 class DB:
     def __init__(self):
         # 打开数据库连接
-        #self.db = MySQLdb.connect("127.0.0.1", "root", "admin", "sgba", charset='utf8')
-        self.db = cx_Oracle.connect('root/admin@127.0.0.1:1521/orcl')
+        #self.db = cx_Oracle.connect('root/admin@127.0.0.1:1521/orcl')
+        self.db = cx_Oracle.connect('lc10029999/liu647@10.104.11.30:1521/sgzjdbp')
         # 使用cursor()方法获取操作游标
         self.cursor = self.db.cursor()
 

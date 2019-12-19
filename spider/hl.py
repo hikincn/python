@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import requests
+import time
 from lxml import html
 
 from spider.Spider import Spider
@@ -40,6 +41,7 @@ class hl(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
+            time.sleep(1)
             sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'USD','美元汇率',"+ data[1] +  ")"
             db.execute(sql)
             db.commit()
@@ -47,6 +49,7 @@ class hl(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
+            time.sleep(1)
             sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'EUR','欧元汇率',"+ data[2] +  ")"
             db.execute(sql)
             db.commit()

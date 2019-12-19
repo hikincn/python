@@ -35,8 +35,11 @@ class qihuo_sh(Spider):
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_TIME,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZJS) VALUES" \
-              "(" +dt.strftime('%Y%m%d%H%M%S')+",'"+ data['contractname']+"','螺纹钢"+data['contractname']+"',"+data['openprice'].replace("--","0")+","+data['highprice'].replace("--","0")+","+data['lowerprice'].replace("--","0")+","+data['lastprice']+","+data['upperdown']+","+data['presettlementprice']+")"
+        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ dt.strftime('%Y%m%d')+"' and qh_code like 'rb%'"
+        db.execute(sql)
+        db.commit()
+        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZJS) VALUES" \
+              "(" +dt.strftime('%Y%m%d')+",'"+ data['contractname']+"','螺纹钢"+data['contractname']+"',"+data['openprice'].replace("--","0")+","+data['highprice'].replace("--","0")+","+data['lowerprice'].replace("--","0")+","+data['lastprice']+","+data['upperdown']+","+data['presettlementprice']+")"
         db.execute(sql)
         db.commit()
         db.close()
@@ -49,4 +52,5 @@ class qihuo_sh(Spider):
         #print(str(j))
         #print(rows['delaymarket'][j-1])
         for i in range(0,j-1):
+            time.sleep(1)
             self.insert(rows['delaymarket'][i])

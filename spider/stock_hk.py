@@ -40,7 +40,11 @@ class stock_hk(Spider):
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "INSERT INTO SGBA_ODS_WB_GP(GP_TIME,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) VALUES(" +dt.strftime('%Y%m%d%H%M%S')+",'"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
+        sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ dt.strftime('%Y%m%d')+"' and gp_code <>'000959'"
+        db.execute(sql)
+        db.commit()
+        sql = "INSERT INTO SGBA_ODS_WB_GP(GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) " \
+              "VALUES(" +dt.strftime('%Y%m%d')+",'"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
         db.execute(sql)
         db.commit()
         db.close()

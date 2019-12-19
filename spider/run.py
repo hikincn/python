@@ -41,11 +41,11 @@ def start():
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='14', minute='*/5', second='0')
     scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
 
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='9-11', minute='*/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='11', minute='0-30/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='13', minute='30-59/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='14', minute='*/5', second='0')
-    scheduler.add_job(qihuo_dl().run, 'cron', day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
+    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri', hour='9-11', minute='*/5', second='0')
+    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri', hour='11', minute='0-30/5', second='0')
+    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri', hour='13', minute='30-59/5', second='0')
+    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri', hour='14', minute='*/5', second='0')
+    scheduler.add_job(qihuo_sh().run, 'cron', day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
 
     scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri', hour='9', minute='30-59/5', second='0')
     scheduler.add_job(stock_a().run, 'cron', day_of_week='mon-fri', hour='10', minute='*/5', second='0')
@@ -62,19 +62,21 @@ def start():
         scheduler.start()
     except (KeyboardInterrupt, SystemExit):
         pass
-
+'''
     spiders = [
-        # kpi()
-        moneysupply()
-        # hl(),
-        # shibor(),
-        # qihuo_sh()
-        # qihuo_dl(),
-        # stock()
+        kpi(),
+        moneysupply(),
+        hl(),
+        shibor(),
+        qihuo_dl(),
+        qihuo_sh(),
+        stock_a(),
+        stock_hk()
     ]
     for spider in spiders:
         spider.__getattribute__("run")()
 
+    '''
 
 if __name__ == '__main__':
     start()

@@ -1,6 +1,6 @@
 create table SGBA_ODS_WB_KPI
 (
-  kpi_id    NUMBER not null,
+  kpi_id    VARCHAR2(20) not null,
   kpi_month VARCHAR2(20),
   kpi_code  VARCHAR2(20),
   kpi_name  VARCHAR2(100),
@@ -13,7 +13,7 @@ alter table SGBA_ODS_WB_KPI
   using index;
 create table SGBA_ODS_WB_HL
 (
-  hl_id   NUMBER not null,
+  hl_id   VARCHAR2(20) not null,
   hl_day  VARCHAR2(20),
   hl_code VARCHAR2(20),
   hl_name VARCHAR2(100),
@@ -26,10 +26,10 @@ alter table SGBA_ODS_WB_HL
   using index;
 create table SGBA_ODS_WB_GP
 (
-  gp_id    NUMBER not null,
-  gp_time  VARCHAR2(20),
+  gp_id    VARCHAR2(20) not null,
+  gp_day   VARCHAR2(20),
   gp_code  VARCHAR2(20),
-  gp_name  VARCHAR2(20),
+  gp_name  VARCHAR2(100),
   gp_zsz   NUMBER(20,6),
   gp_zrspj NUMBER(20,6),
   gp_jrkpj NUMBER(20,6),
@@ -42,10 +42,10 @@ alter table SGBA_ODS_WB_GP
   using index ;
   create table SGBA_ODS_WB_QH
 (
-  qh_id   NUMBER not null,
-  qh_time VARCHAR2(40),
-  qh_code VARCHAR2(10),
-  qh_name VARCHAR2(40),
+  qh_id   VARCHAR2(20) not null,
+  qh_day  VARCHAR2(20),
+  qh_code VARCHAR2(20),
+  qh_name VARCHAR2(100),
   qh_kp   NUMBER(20,6),
   qh_zg   NUMBER(20,6),
   qh_zd   NUMBER(20,6),
@@ -60,30 +60,6 @@ alter table SGBA_ODS_WB_GP
 alter table SGBA_ODS_WB_QH
   add constraint P_QH primary key (QH_ID)
   using index ;
-create sequence S_ODS_WB_KPI
-minvalue 1
-maxvalue 9999999999999999999999999999
-start with 1
-increment by 1
-cache 20;
-create sequence S_ODS_WB_HL
-minvalue 1
-maxvalue 9999999999999999999999999999
-start with 1
-increment by 1
-cache 20;
-create sequence S_ODS_WB_QH
-minvalue 1
-maxvalue 9999999999999999999999999999
-start with 1
-increment by 1
-cache 20;
-create sequence S_ODS_WB_GP
-minvalue 1
-maxvalue 9999999999999999999999999999
-start with 1
-increment by 1
-cache 20;
 CREATE OR REPLACE TRIGGER
 tr_kpi
   before insert
@@ -91,7 +67,7 @@ tr_kpi
   for each row
 declare
 begin
-  select s_ods_wb_kpi.nextval into :new.kpi_id from dual;
+  select to_char(sysdate,'yyyymmddhh24missSSSSS') into :new.kpi_id from dual;
 end tr_kpi;
 CREATE OR REPLACE TRIGGER
 tr_hl
@@ -100,7 +76,7 @@ tr_hl
   for each row
 declare
 begin
-  select s_ods_wb_hl.nextval into :new.hl_id from dual;
+  select to_char(sysdate,'yyyymmddhh24missSSSSS') into :new.hl_id from dual;
 end tr_hl;
 CREATE OR REPLACE TRIGGER
 tr_qh
@@ -109,7 +85,7 @@ tr_qh
   for each row
 declare
 begin
-  select s_ods_wb_qh.nextval into :new.qh_id from dual;
+  select to_char(sysdate,'yyyymmddhh24missSSSSS') into :new.qh_id from dual;
 end tr_qh;
 CREATE OR REPLACE TRIGGER
 tr_gp
@@ -118,6 +94,6 @@ tr_gp
   for each row
 declare
 begin
-  select s_ods_wb_gp.nextval into :new.gp_id from dual;
+  select to_char(sysdate,'yyyymmddhh24missSSSSS') into :new.gp_id from dual;
 end tr_gp;
 
