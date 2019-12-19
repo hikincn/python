@@ -29,6 +29,8 @@ import os
 
 
 def start():
+
+    '''
     scheduler = BlockingScheduler()
 
     scheduler.add_job(kpi().run, 'cron', hour='12', minute='0', second='0')
@@ -76,7 +78,7 @@ def start():
     for spider in spiders:
         spider.__getattribute__("run")()
 
-    '''
+
 
 if __name__ == '__main__':
     start()

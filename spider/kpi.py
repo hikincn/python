@@ -111,7 +111,7 @@ class kpi(Spider):
         self.insert('cpi_snty','居民消费价格指数(上年同月=100)',value)
         value = self.get_data_by_item('全国居民消费价格分类指数(上年同期=100)(2016-)', '居民消费价格指数(上年同期=100)')
         self.insert('cpi_sntq','居民消费价格指数(上年同期=100)',value)
-        value = self.get_data_by_item('全国居民消费价格分类指数(上月=100)(2016-)', '居民消费价格指数(上年同月=100)')
+        value = self.get_data_by_item('全国居民消费价格分类指数(上月=100)(2016-)', '居民消费价格指数(上月=100)')
         self.insert('cpi_sy','居民消费价格指数(上年同月=100)',value)
 
         value = self.get_data_by_item('按行业分固定资产投资增速（2018-）', '采矿业固定资产投资额_累计增长')

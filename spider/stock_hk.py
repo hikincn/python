@@ -40,7 +40,7 @@ class stock_hk(Spider):
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ dt.strftime('%Y%m%d')+"' and gp_code <>'000959'"
+        sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ dt.strftime('%Y%m%d')+"' and gp_code = '"+str(data['f57'])+"'"
         db.execute(sql)
         db.commit()
         sql = "INSERT INTO SGBA_ODS_WB_GP(GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) " \

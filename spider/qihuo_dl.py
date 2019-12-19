@@ -35,7 +35,7 @@ class qihuo_dl(Spider):
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ dt.strftime('%Y%m%d')+"' and qh_code not like 'rb%'"
+        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ dt.strftime('%Y%m%d')+"' and qh_code ='"+data['indexCode']+"'"
         db.execute(sql)
         db.commit()
         sql = "INSERT INTO SGBA_ODS_WB_QH(QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZDF,QH_SP,QH_JS,QH_ZSP,QH_ZJS) " \

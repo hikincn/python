@@ -29,7 +29,6 @@ class hl(Spider):
             a2 = str.strip(xpath[1].text)
             a3 = str.strip(xpath[2].text)
             rows=[a1,a2,a3]
-            #print(a1, a2, a3)
             self.insert(rows)
 
     def parse(self, row):
@@ -41,7 +40,6 @@ class hl(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            time.sleep(1)
             sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'USD','美元汇率中间价',"+ data[1] +  ")"
             db.execute(sql)
             db.commit()
@@ -49,7 +47,6 @@ class hl(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            time.sleep(1)
             sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'EUR','欧元汇率中间价',"+ data[2] +  ")"
             db.execute(sql)
             db.commit()

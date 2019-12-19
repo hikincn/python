@@ -30,8 +30,7 @@ class shibor(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            #hl_tb = float(data[2]) * float(data[3])
-            db.execute("insert into SGBA_ODS_WB_HL(HL_DAY,HL_CODE,HL_NAME,HL_DATA,HL_TB) values('" + str(data[0]) + "','shibor','隔夜利率(%) o/n'," + data[1] + ")")
+            db.execute("insert into SGBA_ODS_WB_HL(HL_DAY,HL_CODE,HL_NAME,HL_DATA) values('" + str(data[0]) + "','shibor','隔夜利率(%) o/n'," + data[1] + ")")
             db.commit()
         db.close()
 
@@ -46,11 +45,4 @@ class shibor(Spider):
         datetimes = tree.xpath('//*/table[1]/tr[1]/td[1]/text()')
         time = (datetimes[0][:10]).replace('-', '')
         value = shibor[0]
-        value2 = shibor2[0][2:]
-        float = float[0]
-        if "upicon.gif" in float:
-            float = "1"
-        else:
-            float = "-1"
-        # print([time, value, float, value2])
-        self.insert([time, value, float, value2])
+        self.insert([time, value])

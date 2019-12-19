@@ -34,7 +34,6 @@ class moneysupply(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            time.sleep(1)
             sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES(" + data[0].replace("年","").replace("月份","")  +",'M2','货币和准货币(M2)',"+ data[1] +","+ data[2].replace("%","") +","+ data[3].replace("%","") +")"
             db.execute(sql)
             db.commit()
@@ -42,7 +41,6 @@ class moneysupply(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            time.sleep(1)
             sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES(" + data[0].replace("年","").replace("月份","")  +",'M1','货币(M1)',"+ data[4] +","+ data[5].replace("%","") +","+ data[6].replace("%","") +")"
             db.execute(sql)
             db.commit()
@@ -50,7 +48,6 @@ class moneysupply(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            time.sleep(1)
             sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES(" + data[0].replace("年","").replace("月份","")  +",'M0','流通中的现金(M0)',"+ data[7] +","+ data[8].replace("%","") +","+ data[9].replace("%","") +")"
             db.execute(sql)
             db.commit()

@@ -35,7 +35,7 @@ class qihuo_sh(Spider):
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ dt.strftime('%Y%m%d')+"' and qh_code like 'rb%'"
+        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ dt.strftime('%Y%m%d')+"' and qh_code ='"+data['contractname']+"'"
         db.execute(sql)
         db.commit()
         sql = "INSERT INTO SGBA_ODS_WB_QH(QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZJS) VALUES" \
@@ -52,5 +52,4 @@ class qihuo_sh(Spider):
         #print(str(j))
         #print(rows['delaymarket'][j-1])
         for i in range(0,j-1):
-            time.sleep(1)
             self.insert(rows['delaymarket'][i])
