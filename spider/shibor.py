@@ -30,8 +30,8 @@ class shibor(Spider):
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            hl_tb = float(data[2]) * float(data[3])
-            db.execute("insert into SGBA_ODS_WB_HL(HL_DAY,HL_CODE,HL_NAME,HL_DATA,HL_TB) values('" + str(data[0]) + "','shibor','上海银行间同业拆放利率'," + data[1] + "," + str(hl_tb) + ")")
+            #hl_tb = float(data[2]) * float(data[3])
+            db.execute("insert into SGBA_ODS_WB_HL(HL_DAY,HL_CODE,HL_NAME,HL_DATA,HL_TB) values('" + str(data[0]) + "','shibor','隔夜利率(%) o/n'," + data[1] + ")")
             db.commit()
         db.close()
 
