@@ -1,15 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 import requests
-import time
 from lxml import html
-from spider.dbutils import DB
+from dbutils import DB
 from datetime import datetime
 
-from spider.Spider import Spider
-
-
-class moneysupply(Spider):
+class moneysupply():
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
     }

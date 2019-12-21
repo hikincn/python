@@ -2,19 +2,15 @@
 # -*- coding: UTF-8 -*-
 import http
 import json
-import time
 import urllib
-
+import time
 import requests
 from lxml import etree, html
-from spider.dbutils import DB
+from dbutils import DB
 from datetime import datetime
 
 
-from spider.Spider import Spider
-
-
-class stock_a(Spider):
+class stock_a():
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
@@ -39,6 +35,7 @@ class stock_a(Spider):
 
     def insert(self, data):
         db = DB()
+        time.sleep(1)
         dt = datetime.now()
         sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ dt.strftime('%Y%m%d')+"' and gp_code ='000959'"
         db.execute(sql)

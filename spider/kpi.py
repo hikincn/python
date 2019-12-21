@@ -4,17 +4,14 @@ import http
 import json
 import os
 import pickle
-import time
 import urllib
 
 import requests
 
-from spider.Spider import Spider
-from spider.dbutils import DB
+from dbutils import DB
 from datetime import datetime
 
-
-class kpi(Spider):
+class kpi():
     data = {"id": "zb", "dbcode": "hgyd", "wdcode": "zb", "m": "getTree"}
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
     code = ''
@@ -31,7 +28,6 @@ class kpi(Spider):
         if len(product_dic) > 0:
             if product_dic[0]["isParent"]:
                 for product in product_dic:
-                    time.sleep(0.5)
                     self.get_tree(product)
             else:
                 for product in product_dic:
@@ -49,7 +45,6 @@ class kpi(Spider):
         return self.tree[param]
 
     def get_data(self, url):
-        time.sleep(1)
         cookie = http.cookiejar.CookieJar()
         opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie))
         request = urllib.request.Request(url)
