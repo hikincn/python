@@ -28,15 +28,14 @@ import os
 
 def spider():
 
-    kpi().run(),
-    moneysupply().run(),
-    hl().run(),
-    shibor().run(),
-    qihuo_dl().run(),
-    qihuo_sh().run(),
-    stock_a().run(),
-    stock_hk().run()
-
+    # kpi().run(),
+    # moneysupply().run(),
+    # hl().run(),
+    # shibor().run(),
+    # qihuo_dl().run(),
+    # qihuo_sh().run(),
+    stock_a().run()
+    # stock_hk().run()
 """
     scheduler = BlockingScheduler()
 
@@ -111,7 +110,11 @@ def spider():
         scheduler.start()
     except (KeyboardInterrupt, SystemExit):
         pass
+
 """
+
+
+
 
 if __name__ == '__main__':
     spider()

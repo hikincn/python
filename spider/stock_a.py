@@ -38,10 +38,11 @@ class stock_a():
         time.sleep(1)
         dt = datetime.now()
         sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ dt.strftime('%Y%m%d')+"' and gp_code ='000959'"
+        sql.encode(encoding='UTF-8', errors='strict')
         db.execute(sql)
         db.commit()
-        sql = "INSERT INTO SGBA_ODS_WB_GP(GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) " \
-              "VALUES(" +dt.strftime('%Y%m%d')+",'"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
+        sql = "INSERT INTO SGBA_ODS_WB_GP(GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG)  VALUES(" +dt.strftime('%Y%m%d')+",'"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
+        sql.encode(encoding='UTF-8', errors='strict')
         db.execute(sql)
         db.commit()
         db.close()
