@@ -55,5 +55,3 @@ class stock_a():
         rows = self.get_data(url)
         data=rows['data']
         self.insert(data)
-if __name__ == '__main__':
-    stock_a().run()
