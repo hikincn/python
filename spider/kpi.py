@@ -8,7 +8,7 @@ import urllib
 
 import requests
 
-from spider.dbutils import DB
+from dbutils import DB
 from datetime import datetime
 
 class kpi():
