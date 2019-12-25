@@ -28,15 +28,6 @@ import os
 
 def spider():
 
-    # kpi().run(),
-    # moneysupply().run(),
-    # hl().run(),
-    # shibor().run(),
-    # qihuo_dl().run(),
-    # qihuo_sh().run(),
-    stock_a().run()
-    # stock_hk().run()
-"""
     scheduler = BlockingScheduler()
 
     trigger = CronTrigger(hour='12', minute="0", second="0")
@@ -104,15 +95,11 @@ def spider():
 
     trigger = CronTrigger(day_of_week='mon-fri', hour='13-15', minute='*/5', second='0')
     scheduler.add_job(stock_a().run, trigger )
-
-    print('Press Ctrl+{0} to exit'.format('C' if os.name == 'nt' else 'C'))
+    print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
     try:
         scheduler.start()
     except (KeyboardInterrupt, SystemExit):
         pass
-
-"""
-
 
 
 
