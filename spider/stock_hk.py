@@ -6,7 +6,7 @@ import urllib
 
 import requests
 from lxml import etree, html
-from spider.dbutils import DB
+from dbutils import DB
 from datetime import datetime
 
 
