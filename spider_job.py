@@ -54,8 +54,8 @@ def spider():
     trigger = CronTrigger(day_of_week='mon-fri', hour='14', minute='*/5', second='0')
     scheduler.add_job(qihuo_dl().run,trigger)
 
-    trigger = CronTrigger( day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
-    scheduler.add_job(qihuo_dl().run,trigger )
+    #trigger = CronTrigger( day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
+    #scheduler.add_job(qihuo_dl().run,trigger )
 
     trigger = CronTrigger( day_of_week='mon-fri', hour='9-11', minute='*/5', second='0')
     scheduler.add_job(qihuo_sh().run, trigger)
@@ -69,8 +69,8 @@ def spider():
     trigger = CronTrigger(day_of_week='mon-fri', hour='14', minute='*/5', second='0')
     scheduler.add_job(qihuo_sh().run,trigger )
 
-    trigger = CronTrigger(day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
-    scheduler.add_job(qihuo_sh().run, trigger )
+    #trigger = CronTrigger(day_of_week='mon-fri', hour='21-23', minute='*/5', second='0')
+    #scheduler.add_job(qihuo_sh().run, trigger )
 
     trigger = CronTrigger(day_of_week='mon-fri', hour='10-11', minute='*/5', second='0')
     scheduler.add_job(stock_hk().run, trigger )
