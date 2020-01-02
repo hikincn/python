@@ -76,6 +76,9 @@ def spider():
     trigger = CronTrigger(day_of_week='mon-fri', hour='15', minute='*', second='0')
     scheduler.add_job(stock_hk().run, trigger )
 
+    trigger = CronTrigger(day_of_week='mon-fri', hour='9', minute='30-59', second='0')
+    scheduler.add_job(stock_a().run, trigger )
+
     trigger = CronTrigger(day_of_week='mon-fri', hour='10-12', minute='*', second='0')
     scheduler.add_job(stock_a().run, trigger )
 
@@ -90,8 +93,3 @@ def spider():
         scheduler.start()
     except (KeyboardInterrupt, SystemExit):
         pass
-
-
-
-if __name__ == '__main__':
-    spider()

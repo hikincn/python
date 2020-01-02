@@ -32,11 +32,14 @@ class qihuo_dl():
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ dt.strftime('%Y%m%d')+"' and qh_code ='"+data['indexCode']+"'"
+        datestr = str(data['tradeDate'])
+        if datestr != dt.strftime('%Y%m%d'):
+            pass
+        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ datestr +"' and qh_code ='"+data['indexCode']+"'"
         db.execute(sql)
         db.commit()
         sql = "INSERT INTO SGBA_ODS_WB_QH(QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZDF,QH_SP,QH_JS,QH_ZSP,QH_ZJS) " \
-              "VALUES(" +dt.strftime('%Y%m%d')+",'"+ data['indexCode']+"','"+data['indexName']+"',"+data['openPrice']+","+data['highPrice']+","+data['lowPrice']+","+data['lastPrice']+","+data['netChange']+","+data['chgPercent'].replace("%","")+","+data['closePrice'].replace("--","0")+","+data['clearPrice'].replace("--","0")+","+data['lastClose']+","+data['lastClearPrice']+")"
+              "VALUES(" +datestr+",'"+ data['indexCode']+"','"+data['indexName']+"',"+data['openPrice']+","+data['highPrice']+","+data['lowPrice']+","+data['lastPrice']+","+data['netChange']+","+data['chgPercent'].replace("%","")+","+data['closePrice'].replace("--","0")+","+data['clearPrice'].replace("--","0")+","+data['lastClose']+","+data['lastClearPrice']+")"
         db.execute(sql)
         db.commit()
         db.close()

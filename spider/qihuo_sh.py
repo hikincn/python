@@ -26,6 +26,21 @@ class qihuo_sh():
             return product_dic
         except Exception:
             return ""
+    def get_date(self):
+        urls = 'http://www.shfe.com.cn/products/rb'
+        req = requests.get(url=urls, headers=self.headers)
+        req.encoding = 'utf-8'
+        data = req.text
+
+        try:
+            tree = html.fromstring(data)
+            items = str(tree.xpath('//*[@id="tab_conbox"]/li[2]/h3/span[2]/text()'))
+            items = items.replace("'更新时间：", '')
+            items = items.replace("'", '')[1:11]
+            items = items.replace("-", '')
+            return items
+        except Exception:
+            return ""
 
     def parse(self, row):
         print(row)
@@ -33,7 +48,11 @@ class qihuo_sh():
     def insert(self, data):
         db = DB()
         dt = datetime.now()
-        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ dt.strftime('%Y%m%d')+"' and qh_code ='"+data['contractname']+"'"
+        dtstr = dt.strftime('%Y%m%d')
+        datestr = self.get_date()
+        if dtstr != datestr :
+            pass
+        sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ datestr+"' and qh_code ='"+data['contractname']+"'"
         db.execute(sql)
         db.commit()
         sql = "INSERT INTO SGBA_ODS_WB_QH(QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZJS) VALUES" \

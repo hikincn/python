@@ -29,7 +29,6 @@ class stock_a():
         except Exception:
             return ""
 
-
     def parse(self, row):
         return row
 
@@ -37,12 +36,18 @@ class stock_a():
         db = DB()
         time.sleep(1)
         dt = datetime.now()
-        sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ dt.strftime('%Y%m%d')+"' and gp_code ='000959'"
-        sql.encode(encoding='UTF-8', errors='strict')
+        ltime = time.localtime(data['f86'])
+        datestr = time.strftime("%Y%m%d", ltime)
+        if datestr != dt.strftime("%Y%m%d"):
+            pass
+        timeStr = time.strftime("%Y%m%d%H%M%S", ltime)
+
+        sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ datestr+"' and gp_code ='000959'"
         db.execute(sql)
         db.commit()
-        sql = "INSERT INTO SGBA_ODS_WB_GP(GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG)  VALUES(" +dt.strftime('%Y%m%d')+",'"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
-        sql.encode(encoding='UTF-8', errors='strict')
+
+        sql = "INSERT INTO SGBA_ODS_WB_GP(GP_ID,GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) " \
+              " VALUES('" +timeStr+"','"+datestr+"','"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
         db.execute(sql)
         db.commit()
         db.close()
