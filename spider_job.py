@@ -93,3 +93,5 @@ def spider():
         scheduler.start()
     except (KeyboardInterrupt, SystemExit):
         pass
+if __name__ == '__main__':
+    spider()
