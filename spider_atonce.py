@@ -13,14 +13,14 @@ import os
 
 
 def spider():
-
+    '''
     kpi().run(),
     moneysupply().run(),
     hl().run(),
     shibor().run(),
     qihuo_dl().run(),
     qihuo_sh().run(),
-    stock_a().run(),
+    stock_a().run(),'''
     stock_hk().run()
 
 if __name__ == '__main__':

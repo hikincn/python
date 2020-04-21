@@ -3,7 +3,7 @@
 import http
 import json
 import urllib
-
+import random
 import time
 import requests
 from lxml import etree, html
@@ -42,7 +42,7 @@ class stock_hk():
         datestr = time.strftime("%Y%m%d", ltime)
         if datestr != dt.strftime("%Y%m%d"):
             pass
-        timeStr = time.strftime("%Y%m%d%H%M%S", ltime)
+        timeStr = time.strftime("%Y%m%d%H%M%S", ltime) + str(random.randint(100000,999999))
 
         sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ datestr+"' and gp_code = '"+str(data['f57'])+"'"
         db.execute(sql)
