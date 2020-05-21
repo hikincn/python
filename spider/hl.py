@@ -15,6 +15,12 @@ class hl():
     def get_url(self, page=None):
         return "http://www.safe.gov.cn/AppStructured/hlw/RMBQuery.do"
 
+    def get_url_gcjgzs(self, page=None):
+        return "http://www.96369.net/indices/65"
+
+    def get_url_tkszs(self, page=None):
+        return "http://www.96369.net/Indices/125"
+
     def get_data(self, url):
         req = requests.get(url=url, headers=self.headers)
         req.encoding = 'utf-8'
@@ -28,6 +34,30 @@ class hl():
             a3 = str.strip(xpath[2].text)
             rows=[a1,a2,a3]
             self.insert(rows)
+
+    def get_data_gcjgzs(self, url):
+        req = requests.get(url=url, headers=self.headers)
+        req.encoding = 'utf-8'
+        html1 = req.text
+        tree = html.fromstring(html1)
+        for i in range(0,50):
+            xpath = tree.xpath('//*/table[@class="mod_tab"]//tr/td')
+            a1 = xpath[200 - i*4].text.replace("-", "")
+            a2 = xpath[201 - i*4].text
+            rows=[a1,a2]
+            self.insert_gcjgzs(rows)
+
+    def get_data_tkszs(self, url):
+        req = requests.get(url=url, headers=self.headers)
+        req.encoding = 'utf-8'
+        html1 = req.text
+        tree = html.fromstring(html1)
+        for i in range(0,50):
+            xpath = tree.xpath('//*/table[@class="mod_tab"]//tr/td')
+            a1 = xpath[200 - i*4].text.replace("-", "")
+            a2 = xpath[201 - i*4].text
+            rows=[a1,a2]
+            self.insert_tkszs(rows)
 
     def parse(self, row):
         return row
@@ -50,7 +80,36 @@ class hl():
             db.commit()
         db.close()
 
+    def insert_gcjgzs(self, data):
+        db = DB()
+        sql = "select count(*) from sgba_ods_wb_hl where hl_day = '"+data[0]+"' and hl_code='GTJGZS'"
+        db.execute(sql)
+        results = db.fetchone()
+        if results[0] == 0:
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'GTJGZS','钢材价格指数',"+ data[1] +  ")"
+            db.execute(sql)
+            db.commit()
+        db.close()
+
+    def insert_tkszs(self, data):
+        db = DB()
+        sql = "select count(*) from sgba_ods_wb_hl where hl_day = '"+data[0]+"' and hl_code='TKSZS'"
+        db.execute(sql)
+        results = db.fetchone()
+        if results[0] == 0:
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'TKSZS','62%铁矿石普氏',"+ data[1] +  ")"
+            db.execute(sql)
+            db.commit()
+        db.close()
+
     def run(self):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'---美元欧元汇率')
         url = self.get_url()
-        rows = self.get_data(url)
+        self.get_data(url)
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'---钢材价格指数')
+        url = self.get_url_gcjgzs()
+        self.get_data_gcjgzs(url)
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'---62%铁矿石普氏')
+        url = self.get_url_tkszs()
+        self.get_data_tkszs(url)

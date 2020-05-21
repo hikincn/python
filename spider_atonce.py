@@ -16,12 +16,13 @@ def spider():
     '''
     kpi().run(),
     moneysupply().run(),
-    hl().run(),
+    stock_a().run(),
     shibor().run(),
     qihuo_dl().run(),
     qihuo_sh().run(),
-    stock_a().run(),'''
-    stock_hk().run()
+    stock_hk().run(),'''
+
+    hl().run()
 
 if __name__ == '__main__':
     spider()
