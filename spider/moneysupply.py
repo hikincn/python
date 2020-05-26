@@ -2,17 +2,14 @@
 # -*- coding: UTF-8 -*-
 import requests
 from lxml import html
+import random
+import time
 from spider.dbutils import DB
 from datetime import datetime
 
 class moneysupply():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36",
     }
-
-    def get_url(self, page=None):
-        url = "http://data.eastmoney.com/cjsj/hbgyl.html"
-        return url
 
     def get_data(self, url):
         req = requests.get(url=url, headers=self.headers)
@@ -30,21 +27,24 @@ class moneysupply():
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES(" + data[0].replace("年","").replace("月份","")  +",'M2','货币和准货币(M2)',"+ data[1] +","+ data[2].replace("%","") +","+ data[3].replace("%","") +")"
+            kpi_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+            sql = "INSERT INTO SGBA_ODS_WB_KPI(kpi_id,KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES("+kpi_id +"," + data[0].replace("年","").replace("月份","")  +",'M2','货币和准货币(M2)',"+ data[1] +","+ data[2].replace("%","") +","+ data[3].replace("%","") +")"
             db.execute(sql)
             db.commit()
         sql = "select count(*) from sgba_ods_wb_kpi where kpi_month = '"+data[0].replace("年","").replace("月份","")+"' and kpi_code='M1'"
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES(" + data[0].replace("年","").replace("月份","")  +",'M1','货币(M1)',"+ data[4] +","+ data[5].replace("%","") +","+ data[6].replace("%","") +")"
+            kpi_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+            sql = "INSERT INTO SGBA_ODS_WB_KPI(kpi_id,KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES("+kpi_id +"," + data[0].replace("年","").replace("月份","")  +",'M1','货币(M1)',"+ data[4] +","+ data[5].replace("%","") +","+ data[6].replace("%","") +")"
             db.execute(sql)
             db.commit()
         sql = "select count(*) from sgba_ods_wb_kpi where kpi_month = '"+data[0].replace("年","").replace("月份","")+"' and kpi_code='M0'"
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES(" + data[0].replace("年","").replace("月份","")  +",'M0','流通中的现金(M0)',"+ data[7] +","+ data[8].replace("%","") +","+ data[9].replace("%","") +")"
+            kpi_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+            sql = "INSERT INTO SGBA_ODS_WB_KPI(kpi_id,KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA,KPI_TB,KPI_HB) VALUES("+kpi_id +"," + data[0].replace("年","").replace("月份","")  +",'M0','流通中的现金(M0)',"+ data[7] +","+ data[8].replace("%","") +","+ data[9].replace("%","") +")"
             db.execute(sql)
             db.commit()
         db.close()
@@ -61,7 +61,7 @@ class moneysupply():
 
     def run(self):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
-        url = self.get_url()
+        url = "http://data.eastmoney.com/cjsj/hbgyl.html"
         data = self.get_data(url)
         tree = html.fromstring(data)
         items = tree.xpath('//*[@id="tb"]/tr[3]/td//text()')

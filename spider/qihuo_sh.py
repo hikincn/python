@@ -3,7 +3,8 @@
 import http
 import json
 import urllib
-
+import random
+import time
 import requests
 from lxml import etree, html
 from spider.dbutils import DB
@@ -11,8 +12,7 @@ from datetime import datetime
 
 
 class qihuo_sh():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
     def get_url(self, page=None):
         return "http://www.shfe.com.cn/data/delaymarket_rb.dat"
@@ -55,8 +55,9 @@ class qihuo_sh():
         sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ datestr+"' and qh_code ='"+data['contractname']+"'"
         db.execute(sql)
         db.commit()
-        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZJS) VALUES" \
-              "(" +dt.strftime('%Y%m%d')+",'"+ data['contractname']+"','螺纹钢"+data['contractname']+"',"+data['openprice'].replace("--","0")+","+data['highprice'].replace("--","0")+","+data['lowerprice'].replace("--","0")+","+data['lastprice']+","+data['upperdown']+","+data['presettlementprice']+")"
+        qh_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_ID,QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZJS) VALUES" \
+              "("+qh_id +"," +dt.strftime('%Y%m%d')+",'"+ data['contractname']+"','螺纹钢"+data['contractname']+"',"+data['openprice'].replace("--","0")+","+data['highprice'].replace("--","0")+","+data['lowerprice'].replace("--","0")+","+data['lastprice']+","+data['upperdown']+","+data['presettlementprice']+")"
         db.execute(sql)
         db.commit()
         db.close()
@@ -66,7 +67,5 @@ class qihuo_sh():
         url = self.get_url()
         rows = self.get_data(url)
         j = len(rows['delaymarket'])
-        #print(str(j))
-        #print(rows['delaymarket'][j-1])
         for i in range(0,j-1):
             self.insert(rows['delaymarket'][i])

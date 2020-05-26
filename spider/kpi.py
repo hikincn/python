@@ -3,6 +3,8 @@
 import http
 import json
 import os
+import random
+import time
 import pickle
 import urllib
 
@@ -76,7 +78,8 @@ class kpi():
         db.execute(sql)
         results = db.fetchone()
         if results[0]==0:
-            sql = "INSERT INTO SGBA_ODS_WB_KPI(KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA) VALUES(" +data['date']+",'"+ code+ "','"+name+"',"+data['strdata']+")"
+            kpi_id = time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000, 999999))
+            sql = "INSERT INTO SGBA_ODS_WB_KPI(kpi_id,KPI_MONTH,KPI_CODE,KPI_NAME,KPI_DATA) VALUES('"+kpi_id +"','" +data['date']+"','"+ code+ "','"+name+"',"+data['strdata']+")"
             db.execute(sql)
             db.commit()
         db.close()

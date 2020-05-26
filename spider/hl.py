@@ -3,23 +3,14 @@
 
 import requests
 from lxml import html
-
+import random
+import time
 from spider.dbutils import DB
 from datetime import datetime
 
 
 class hl():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
-
-    def get_url(self, page=None):
-        return "http://www.safe.gov.cn/AppStructured/hlw/RMBQuery.do"
-
-    def get_url_gcjgzs(self, page=None):
-        return "http://www.96369.net/indices/65"
-
-    def get_url_tkszs(self, page=None):
-        return "http://www.96369.net/Indices/125"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
     def get_data(self, url):
         req = requests.get(url=url, headers=self.headers)
@@ -40,10 +31,10 @@ class hl():
         req.encoding = 'utf-8'
         html1 = req.text
         tree = html.fromstring(html1)
-        for i in range(0,50):
+        for i in range(0,30):
             xpath = tree.xpath('//*/table[@class="mod_tab"]//tr/td')
-            a1 = xpath[200 - i*4].text.replace("-", "")
-            a2 = xpath[201 - i*4].text
+            a1 = xpath[120 - i*4].text.replace("-", "")
+            a2 = xpath[121 - i*4].text
             rows=[a1,a2]
             self.insert_gcjgzs(rows)
 
@@ -52,10 +43,10 @@ class hl():
         req.encoding = 'utf-8'
         html1 = req.text
         tree = html.fromstring(html1)
-        for i in range(0,50):
+        for i in range(0,30):
             xpath = tree.xpath('//*/table[@class="mod_tab"]//tr/td')
-            a1 = xpath[200 - i*4].text.replace("-", "")
-            a2 = xpath[201 - i*4].text
+            a1 = xpath[120 - i*4].text.replace("-", "")
+            a2 = xpath[121 - i*4].text
             rows=[a1,a2]
             self.insert_tkszs(rows)
 
@@ -68,14 +59,16 @@ class hl():
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'USD','美元汇率中间价',"+ data[1] +  ")"
+            hl_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_ID,HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES("+hl_id +","+data[0]+",'USD','美元汇率中间价',"+ data[1] +  ")"
             db.execute(sql)
             db.commit()
         sql = "select count(*) from sgba_ods_wb_hl where hl_day = '"+data[0]+"' and hl_code='EUR'"
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'EUR','欧元汇率中间价',"+ data[2] +  ")"
+            hl_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_ID,HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES("+hl_id +","+data[0]+",'EUR','欧元汇率中间价',"+ data[2] +  ")"
             db.execute(sql)
             db.commit()
         db.close()
@@ -86,7 +79,8 @@ class hl():
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'GTJGZS','钢材价格指数',"+ data[1] +  ")"
+            hl_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_ID,HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES("+hl_id +"," +data[0]+",'GTJGZS','钢材价格指数',"+ data[1] +  ")"
             db.execute(sql)
             db.commit()
         db.close()
@@ -97,7 +91,8 @@ class hl():
         db.execute(sql)
         results = db.fetchone()
         if results[0] == 0:
-            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES(" +data[0]+",'TKSZS','62%铁矿石普氏',"+ data[1] +  ")"
+            hl_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+            sql = "INSERT INTO SGBA_ODS_WB_hl(HL_ID,HL_DAY,HL_CODE,HL_NAME,HL_DATA) VALUES("+hl_id +"," +data[0]+",'TKSZS','62%铁矿石普氏',"+ data[1] +  ")"
             db.execute(sql)
             db.commit()
         db.close()
@@ -105,11 +100,8 @@ class hl():
     def run(self):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'---美元欧元汇率')
-        url = self.get_url()
-        self.get_data(url)
+        self.get_data("http://www.safe.gov.cn/AppStructured/hlw/RMBQuery.do")
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'---钢材价格指数')
-        url = self.get_url_gcjgzs()
-        self.get_data_gcjgzs(url)
+        self.get_data_gcjgzs("http://www.96369.net/indices/65")
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'---62%铁矿石普氏')
-        url = self.get_url_tkszs()
-        self.get_data_tkszs(url)
+        self.get_data_tkszs("http://www.96369.net/Indices/125")

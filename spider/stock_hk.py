@@ -13,11 +13,7 @@ from datetime import datetime
 
 
 class stock_hk():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
-
-    def get_url(self, page=None):
-        return "http://quote.eastmoney.com/sz000959.html"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
     def get_data(self, url):
         req = requests.get(url=url, headers=self.headers)
@@ -42,23 +38,20 @@ class stock_hk():
         datestr = time.strftime("%Y%m%d", ltime)
         if datestr != dt.strftime("%Y%m%d"):
             pass
-        timeStr = time.strftime("%Y%m%d%H%M%S", ltime) + str(random.randint(100000,999999))
-
+        GP_ID = time.strftime("%Y%m%d%H%M%S", ltime) + str(random.randint(100000,999999))
         sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ datestr+"' and gp_code = '"+str(data['f57'])+"'"
         db.execute(sql)
         db.commit()
         sql = "INSERT INTO SGBA_ODS_WB_GP(GP_ID,GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) " \
-              "VALUES('" +timeStr+"','"+datestr+"','"+  str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
+              "VALUES('" +GP_ID+"','"+datestr+"','"+  str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
         db.execute(sql)
         db.commit()
         db.close()
-        #print(sql)
 
     def run(self):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         ##首长宝佳
         url="http://push2.eastmoney.com/api/qt/stock/get?secid=116.00103&fields=f18,f59,f51,f52,f57,f58,f106,f105,f62,f108,f177,f43,f46,f60,f44,f45,f47,f48,f49,f113,f114,f115,f85,f84,f169,f170,f161,f163,f164,f171,f126,f168,f162,f116,f55,f92,f71,f50,f167,f117,f86,f172,f174,f175&ut=e1e6871893c6386c5ff6967026016627&fltt=2&cb=jQuery.jQuery8984096671674673_1575897409998&_=1575897409888"
-        #url="http://push2.eastmoney.com/api/qt/clist/get?&ut=bd1d9ddb04089700cf9c27f6f7426281&pi=0&pz=7&po=1&fid=f3&fs=b:HKBLOCK|HK6&cb=jQuery.jQuery20008296812465476_1575803588337&_=1575803588153"
         rows = self.get_data(url)
         data=rows['data']
         self.insert(data)

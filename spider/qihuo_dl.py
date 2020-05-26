@@ -3,18 +3,14 @@
 import http
 import json
 import urllib
-
+import random
+import time
 import requests
 from spider.dbutils import DB
 from datetime import datetime
 
 class qihuo_dl():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
-    urls = []
-
-    def get_url(self, page=None):
-        return "http://index.dce.com.cn:10000/dce-webapp-indexquote-1.0-RELEASE/quoteDetail/indexQuote?indexTypeFlag=null&v=04920099850405435"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"}
 
     def get_data(self, url):
         req = requests.get(url=url, headers=self.headers)
@@ -38,25 +34,23 @@ class qihuo_dl():
         sql = "delete from SGBA_ODS_WB_QH where qh_day = '"+ datestr +"' and qh_code ='"+data['indexCode']+"'"
         db.execute(sql)
         db.commit()
-        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZDF,QH_SP,QH_JS,QH_ZSP,QH_ZJS) " \
-              "VALUES(" +datestr+",'"+ data['indexCode']+"','"+data['indexName']+"',"+data['openPrice']+","+data['highPrice']+","+data['lowPrice']+","+data['lastPrice']+","+data['netChange']+","+data['chgPercent'].replace("%","")+","+data['closePrice'].replace("--","0")+","+data['clearPrice'].replace("--","0")+","+data['lastClose']+","+data['lastClearPrice']+")"
+        qh_id =  time.strftime("%Y%m%d%H%M%S", time.localtime()) + str(random.randint(100000,999999))
+        sql = "INSERT INTO SGBA_ODS_WB_QH(QH_ID,QH_DAY,QH_CODE,QH_NAME,QH_KP,QH_ZG,QH_ZD,QH_ZX,QH_ZDS,QH_ZDF,QH_SP,QH_JS,QH_ZSP,QH_ZJS) " \
+              "VALUES("+qh_id +","  +datestr+",'"+ data['indexCode']+"','"+data['indexName']+"',"+data['openPrice']+","+data['highPrice']+","+data['lowPrice']+","+data['lastPrice']+","+data['netChange']+","+data['chgPercent'].replace("%","")+","+data['closePrice'].replace("--","0")+","+data['clearPrice'].replace("--","0")+","+data['lastClose']+","+data['lastClearPrice']+")"
         db.execute(sql)
         db.commit()
         db.close()
 
     def run(self):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
-        url = self.get_url()
+        url = "http://index.dce.com.cn:10000/dce-webapp-indexquote-1.0-RELEASE/quoteDetail/indexQuote?indexTypeFlag=null&v=04920099850405435"
         rows = self.get_data(url)
         #铁矿石
         data = rows['data'][23]
-        #print(data)
         self.insert(data)
         #焦炭
         data = rows['data'][21]
-        #print(data)
         self.insert(data)
         #焦煤
         data = rows['data'][22]
-        #print(data)
         self.insert(data)

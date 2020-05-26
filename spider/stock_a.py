@@ -41,18 +41,16 @@ class stock_a():
         datestr = time.strftime("%Y%m%d", ltime)
         if datestr != dt.strftime("%Y%m%d"):
             pass
-        timeStr = time.strftime("%Y%m%d%H%M%S", ltime) + str(random.randint(100000,999999))
-
+        GP_ID = time.strftime("%Y%m%d%H%M%S", ltime) + str(random.randint(100000,999999))
         sql = "delete from SGBA_ODS_WB_GP where gp_day = '"+ datestr+"' and gp_code ='"+str(data['f57'])+"'"
         db.execute(sql)
         db.commit()
 
         sql = "INSERT INTO SGBA_ODS_WB_GP(GP_ID,GP_DAY,GP_CODE,GP_NAME,GP_ZSZ,GP_ZRSPJ,GP_JRKPJ,GP_JRZGJ,GP_JRZDJ,GP_SSJG) " \
-              " VALUES('" +timeStr+"','"+datestr+"','"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
+              " VALUES('" +GP_ID+"','"+datestr+"','"+ str(data['f57'])+ "','" + str(data['f58']).replace("'","")+ "'," +str(data['f116'])+ "," +str(data['f60'])+ "," +str(data['f46'])+ "," +str(data['f44'])+ "," +str(data['f45'])+ "," +str(data['f43'])+ ")"
         db.execute(sql)
         db.commit()
         db.close()
-        #print(sql)
 
     def run(self):
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
