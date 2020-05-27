@@ -52,16 +52,16 @@ def spider():
     trigger = CronTrigger(day_of_week='mon-fri', hour='14', minute='*', second='0')
     scheduler.add_job(qihuo_dl().run,trigger)
 
-    trigger = CronTrigger( day_of_week='mon-fri', hour='9-11', minute='*', second='0')
+    trigger = CronTrigger( day_of_week='mon-fri', hour='9-11', minute='*/2', second='0')
     scheduler.add_job(qihuo_sh().run, trigger)
 
-    trigger = CronTrigger(day_of_week='mon-fri', hour='11', minute='0-30', second='0')
+    trigger = CronTrigger(day_of_week='mon-fri', hour='11', minute='0-30/2', second='0')
     scheduler.add_job(qihuo_sh().run, trigger )
 
-    trigger = CronTrigger(day_of_week='mon-fri', hour='13', minute='30-59', second='0')
+    trigger = CronTrigger(day_of_week='mon-fri', hour='13', minute='30-59/2', second='0')
     scheduler.add_job(qihuo_sh().run, trigger )
 
-    trigger = CronTrigger(day_of_week='mon-fri', hour='14', minute='*', second='0')
+    trigger = CronTrigger(day_of_week='mon-fri', hour='14', minute='*/2', second='0')
     scheduler.add_job(qihuo_sh().run,trigger )
 
     trigger = CronTrigger(day_of_week='mon-fri', hour='10-11', minute='*', second='0')
