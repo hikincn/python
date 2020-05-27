@@ -33,8 +33,8 @@ class hl():
         tree = html.fromstring(html1)
         for i in range(0,30):
             xpath = tree.xpath('//*/table[@class="mod_tab"]//tr/td')
-            a1 = xpath[120 - i*4].text.replace("-", "")
-            a2 = xpath[121 - i*4].text
+            a1 = xpath[i*4].text.replace("-", "")
+            a2 = xpath[i*4+1].text
             rows=[a1,a2]
             self.insert_gcjgzs(rows)
 
@@ -45,8 +45,8 @@ class hl():
         tree = html.fromstring(html1)
         for i in range(0,30):
             xpath = tree.xpath('//*/table[@class="mod_tab"]//tr/td')
-            a1 = xpath[120 - i*4].text.replace("-", "")
-            a2 = xpath[121 - i*4].text
+            a1 = xpath[i*4].text.replace("-", "")
+            a2 = xpath[i*4+1].text
             rows=[a1,a2]
             self.insert_tkszs(rows)
 
