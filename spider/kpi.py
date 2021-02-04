@@ -7,11 +7,14 @@ import random
 import time
 import pickle
 import urllib
-
+import ssl
+import urllib3
 import requests
 
 from spider.dbutils import DB
 from datetime import datetime
+
+
 
 class kpi():
     data = {"id": "zb", "dbcode": "hgyd", "wdcode": "zb", "m": "getTree"}
@@ -20,10 +23,10 @@ class kpi():
     tree = {}
 
     def get_tree(self, parent=None):
-        url = 'http://data.stats.gov.cn/easyquery.htm'
+        url = 'https://data.stats.gov.cn/easyquery.htm?cn=A01'
         if parent is not None:
             self.data["id"] = parent['id']
-        req = requests.post(url=url, data=self.data, headers=self.headers)
+        req = requests.post(url=url, data=self.data, headers=self.headers,verify = False)
         req.encoding = 'utf-8'
         html = req.text
         product_dic = json.loads(html)
@@ -33,7 +36,7 @@ class kpi():
                     self.get_tree(product)
             else:
                 for product in product_dic:
-                    url2 = 'http://data.stats.gov.cn/easyquery.htm?m=QueryData&dbcode=hgyd&rowcode=zb&colcode=sj&wds=[]&dfwds=[{"wdcode":"zb","valuecode":"' + product[
+                    url2 = 'https://data.stats.gov.cn/easyquery.htm?cn=A01&m=QueryData&dbcode=hgyd&rowcode=zb&colcode=sj&wds=[]&dfwds=[{"wdcode":"zb","valuecode":"' + product[
                         "id"] + '"}]&k1=1575347790952&h=1'
                     self.tree[product['name']] = url2
 
@@ -94,6 +97,8 @@ class kpi():
         return self.parse(rows, key)
 
     def run(self):
+        ssl._create_default_https_context = ssl._create_stdlib_context
+        urllib3.disable_warnings()
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S')+'【'+__name__+'】')
         value = self.get_data_by_item('制造业采购经理指数', '制造业采购经理指数')
         self.insert('pmi','制造业采购经理指数',value)

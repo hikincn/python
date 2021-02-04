@@ -21,7 +21,7 @@ setup(
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
-        'Operating System :: windows server 2012'  # 你的操作系统
+        'Operating System :: windows server 2012',  # 你的操作系统
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',  # BSD认证
         'Programming Language :: Python',  # 支持的语言
